@@ -18,13 +18,8 @@ public class Bounce : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter()
     {
-        Vector3 jumpForce = collision.impulse * 3;
-        if (jumpForce.y > 6f)
-        {
-            jumpForce.y = 6f;
-        }
-        player.Jump(jumpForce);
+        player.Jump(6f);
     }
 }

@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     private Rigidbody _playerRigidbody;
     public bool isGrounded;
-    private readonly Vector3 _jump = new Vector3(0.0f, 5f, 0.0f);
+    private readonly float _jumpForce = 5f;
     
     // Start is called before the first frame update
     void Start()
@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            Jump(_jump);
+            Jump(_jumpForce);
             isGrounded = false;
         }
 
@@ -31,9 +31,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Jump(Vector3 jumpForce)
+    public void Jump(float jumpForce)
     {
-        _playerRigidbody.AddForce(jumpForce, ForceMode.Impulse);
+        _playerRigidbody.AddForce(new Vector3(0f, jumpForce, 0f), ForceMode.Impulse);
     }
 
     void OnCollisionStay()
