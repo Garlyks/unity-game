@@ -9,28 +9,36 @@ public class Player : MonoBehaviour
     private bool _jumpKeyWasPressed;
     private float _horizontalInput;
     private Rigidbody _playerRigidbody;
+    public bool isGrounded;
+    public Vector3 jump;
+    
+    public float jumpForce = 2.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         _playerRigidbody = GetComponent<Rigidbody>();
+        jump = new Vector3(0.0f, jumpForce, 0.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        _jumpKeyWasPressed = Input.GetKeyDown(KeyCode.Space);
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            _playerRigidbody.AddForce(jump * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
+        }
+
         _horizontalInput = Input.GetAxis("Horizontal");
+    }
+    
+    void OnCollisionStay(){
+       isGrounded = true;
     }
 
     private void FixedUpdate()
     {
         _playerRigidbody.velocity = new Vector3(_horizontalInput * 4, _playerRigidbody.velocity.y, 0);
-
-        if (_jumpKeyWasPressed)
-        {
-            _playerRigidbody.AddForce(Vector3.up * 5, ForceMode.VelocityChange);
-            _jumpKeyWasPressed = false;
-        }
     }
 }
