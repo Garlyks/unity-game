@@ -2,23 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Transform _groundCheckTransform;
-    private bool _jumpKeyWasPressed;
-    private float _horizontalInput;
     private Rigidbody _playerRigidbody;
     public bool isGrounded;
-    public Vector3 jump;
+    private readonly Vector3 _jump = new Vector3(0.0f, 5f, 0.0f);
     
-    public float jumpForce = 2.0f;
-
     // Start is called before the first frame update
     void Start()
     {
         _playerRigidbody = GetComponent<Rigidbody>();
-        jump = new Vector3(0.0f, jumpForce, 0.0f);
     }
 
     // Update is called once per frame
@@ -26,19 +21,28 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            _playerRigidbody.AddForce(jump * jumpForce, ForceMode.Impulse);
+            Jump(_jump);
             isGrounded = false;
         }
 
-        _horizontalInput = Input.GetAxis("Horizontal");
-    }
-    
-    void OnCollisionStay(){
-       isGrounded = true;
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            _playerRigidbody.velocity = new Vector3(Input.GetAxis("Horizontal") * 4, _playerRigidbody.velocity.y, 0);
+        }
     }
 
-    private void FixedUpdate()
+    public void Jump(Vector3 jumpForce)
     {
-        _playerRigidbody.velocity = new Vector3(_horizontalInput * 4, _playerRigidbody.velocity.y, 0);
+        _playerRigidbody.AddForce(jumpForce, ForceMode.Impulse);
+    }
+
+    void OnCollisionStay()
+    {
+        isGrounded = true;
+    }
+
+    private void OnCollisionExit()
+    {
+        isGrounded = false;
     }
 }
