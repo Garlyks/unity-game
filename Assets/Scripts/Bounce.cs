@@ -6,6 +6,7 @@ using UnityEngine;
 public class Bounce : MonoBehaviour
 {
     [SerializeField] private Player player;
+    [SerializeField] private float jumpForce = 6f;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +21,6 @@ public class Bounce : MonoBehaviour
 
     private void OnCollisionEnter()
     {
-        player.Jump(6f);
+        player.Jump(jumpForce);
     }
 }
