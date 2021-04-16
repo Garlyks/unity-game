@@ -21,10 +21,14 @@ public class DoorController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         animator.SetTrigger("OpenDoor");
+        animator.SetTrigger("isNotTrapDoor");
+        animator.ResetTrigger("CloseDoor");
     }
 
     void OnTriggerExit(Collider other)
     {
         animator.SetTrigger("CloseDoor");
+        animator.ResetTrigger("CloseDoor");
+
     }
 }
