@@ -21,12 +21,11 @@ public class DoorTrapController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         animator.SetTrigger("OpenDoor");
-        animator.SetTrigger("CloseDoor");
     }
 
     void OnTriggerExit(Collider other)
     {
-
+        animator.SetTrigger("CloseDoor");
     }
 }
 
